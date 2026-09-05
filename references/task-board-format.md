@@ -24,10 +24,10 @@ The task board is a markdown file at `TASK_BOARD.md` in the project root. It is 
 **Pipeline breaks:** [none, or reason for skipping a phase]
 
 ### Research Log
-[Populated during Phase 1]
+[Populated during Phase 1 — include the Mermaid dependency-map diagram]
 
 ### Synthesized Spec
-[Populated during Phase 2]
+[Populated during Phase 2 — include the Mermaid change-order diagram]
 
 ### Implementation Notes
 [Populated during Phase 3 — files changed, decisions made]

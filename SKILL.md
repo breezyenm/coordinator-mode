@@ -40,6 +40,8 @@ This is the most important structural rule in coordinator mode. The coordinator 
 
 This separation exists to prevent the coordinator from collapsing into a single-pass executor. The moment the coordinator starts editing files directly, the decomposition discipline breaks down.
 
+Before planning, run `brain-consult` against the project context and fold its advisory output into the plan. Treat escalate items as decisions for Ladee, never for the pipeline.
+
 ## Structured Worker Output
 
 Every worker job must produce a **task notification** when it completes. This is the structured handoff back to the coordinator. Without it, the coordinator is guessing at what happened.
@@ -149,6 +151,8 @@ login.ts → types/auth.ts (AuthUser interface)
 - Is the refresh token flow handled in authService or elsewhere?
 ```
 
+Also render the Dependencies Map as a Mermaid `flowchart` alongside the arrow notation (see **Diagrammatic presentation** below) so cascade risk is visible at a glance.
+
 Do NOT proceed to Phase 2 until you have examined every relevant file and logged findings.
 
 ### Phase 2: SYNTHESIS
@@ -193,6 +197,8 @@ The synthesized spec is the most important artifact. It must contain:
 - Integration: login flow end-to-end
 - Regression: run existing auth test suite
 ```
+
+Render the Change Order as a Mermaid `flowchart` alongside the prose (see **Diagrammatic presentation** below) so the order-of-operations is legible at a glance.
 
 Update the task board status to `SYNTHESIZED`. Present the spec to the user for review before proceeding.
 
@@ -244,6 +250,25 @@ Update the task board status to `SYNTHESIZED`. Present the spec to the user for 
 ```
 
 7. Update task board status to `COMPLETE`
+
+## Diagrammatic presentation
+
+Render the flow-shaped artefacts of the pipeline as Mermaid diagrams alongside their prose / ASCII form — never instead of it. The written spec stays the source of truth; the diagram is the at-a-glance companion.
+
+- **Research Log → Dependencies Map.** Keep the `a → b → c` notation and add a Mermaid `flowchart` of the same graph, so cascading-change risk is visible. Mark nodes with no test coverage.
+- **Synthesized Spec → Change Order.** Render the ordered file changes as a Mermaid `flowchart` (or `sequenceDiagram`) showing what must land before what, so the order-of-operations is legible at a glance.
+- **Phase / worker decomposition.** When a phase fans out into several workers, a Mermaid `flowchart` of phase → workers → scopes helps the user see the decomposition before execution.
+
+Don't diagram trivial cases — a two-file linear change doesn't need one. Reach for a diagram when there's branching, ordering, or dependency to show.
+
+Example — a Dependencies Map rendered as a diagram alongside the arrow notation:
+
+```mermaid
+flowchart LR
+  login[login.ts] --> authService[authService.ts]
+  authService --> firebase[firebase/auth]
+  login --> authTypes[types/auth.ts]
+```
 
 ## Task Board
 
